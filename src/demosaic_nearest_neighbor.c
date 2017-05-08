@@ -57,8 +57,8 @@ int rpiraw_raw8bggr_to_rgb888_nearest_neighbor(uint8_t *dst,
     unsigned i, j;
     int ret = 0;
 
-    //ret = rpiraw_raw8bggr_to_rgb888_edge(dst, ld_dst, src, ld_src,
-                                         //width, height, 1, 1, 1, 1);
+    ret = rpiraw_raw8bggr_to_rgb888_edge(dst, ld_dst, src, ld_src,
+                                         width, height, 1, 1, 1, 1);
     if (ret)
         return ret;
 
