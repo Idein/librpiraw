@@ -36,4 +36,10 @@
                                                    const unsigned width,
                                                    const unsigned height);
 
+    int rpiraw_calc_histogram_rgb888(uint32_t hist_r[256], uint32_t hist_g[256],
+                                     uint32_t hist_b[256],
+                                     uint8_t *img, const unsigned ld,
+                                     const unsigned width,
+                                     const unsigned height);
+
 #endif /* RPIRAW_H */
