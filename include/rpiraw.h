@@ -12,12 +12,10 @@
 
 #include <stdint.h>
 
-    int rpiraw_convert_raw10_to_raw8(uint8_t *dst, const unsigned ld_dst,
-                                     uint8_t *src, const unsigned ld_src,
+    int rpiraw_convert_raw10_to_raw8(uint8_t *dst, uint8_t *src,
                                      const unsigned width,
                                      const unsigned height);
-    int rpiraw_convert_raw10_to_raw16(uint16_t *dst, const unsigned ld_dst,
-                                      uint8_t *src, const unsigned ld_src,
+    int rpiraw_convert_raw10_to_raw16(uint16_t *dst, uint8_t *src,
                                       const unsigned width,
                                       const unsigned height);
 
