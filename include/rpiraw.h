@@ -12,6 +12,8 @@
 
 #include <stdint.h>
 
+    unsigned rpiraw_width_raw8_to_raw10_rpi(const unsigned width);
+
     int rpiraw_convert_raw10_to_raw8(uint8_t *dst, uint8_t *src,
                                      const unsigned width,
                                      const unsigned height);
