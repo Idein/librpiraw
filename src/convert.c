@@ -11,19 +11,25 @@
 #include <stdint.h>
 
 int rpiraw_convert_raw10_to_raw8(uint8_t *dst, uint8_t *src,
-                                 const unsigned width, const unsigned height)
+                                 const unsigned width, const unsigned height,
+                                 const unsigned raw_width)
 {
-    unsigned int i;
+    unsigned i, j;
 
     /* As specified in MIPI Alliance Specification for CSI-2. */
 
-    if ((width * height) % 4 != 0)
+    if (width % 4 != 0)
         return 1;
 
-    for (i = 0; i < width * height; i ++) {
-        *dst++ = *src++;
-        if (i % 4 == 3)
+    for (i = 0; i < height; i ++) {
+        for (j = 0; j < width / 4; j ++) {
+            *dst++ = *src++;
+            *dst++ = *src++;
+            *dst++ = *src++;
+            *dst++ = *src++;
             src++;
+        }
+        src += raw_width - width * 10 / 8;
     }
 
     return 0;
