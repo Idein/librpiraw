@@ -18,9 +18,9 @@ int rpiraw_calc_histogram_rgb888(uint32_t hist_r[256], uint32_t hist_g[256],
 {
     unsigned i, j;
 
-    memset(hist_r, 0, width * height * sizeof(*hist_r));
-    memset(hist_g, 0, width * height * sizeof(*hist_g));
-    memset(hist_b, 0, width * height * sizeof(*hist_b));
+    memset(hist_r, 0, 256 * sizeof(*hist_r));
+    memset(hist_g, 0, 256 * sizeof(*hist_g));
+    memset(hist_b, 0, 256 * sizeof(*hist_b));
     for (i = 0; i < height; i ++) {
         for (j = 0; j < width; j ++) {
             hist_r[*img++]++;
