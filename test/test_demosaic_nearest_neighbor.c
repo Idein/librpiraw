@@ -114,37 +114,10 @@ static void test_bggr_gb_all_255()
                 }
                 CU_ASSERT_EQUAL(dst[i * width * 3 + j * 3 + 1],
                                 count ? sum / count : 0);
-            } else if (i % 2 == 0 && j % 2 == 1) { /* G at GB */
-                uint8_t count = 5;
-                if (i == 0 || j == 0)
-                    count --;
-                if (i == 0 || j == width - 1)
-                    count --;
-                if (i == height - 1 || j == 0)
-                    count --;
-                if (i == height - 1 || j == width - 1)
-                    count --;
-                CU_ASSERT_EQUAL(dst[i * width * 3 + j * 3 + 1], 255 / count);
+            } else if (i % 2 == 0 && j % 2 == 1) {/* G at GB */
+                CU_ASSERT_EQUAL(dst[i * width * 3 + j * 3 + 1], 255);
             } else { /* G at GR */
-                uint16_t sum = 255 * 4;
-                uint8_t count = 5;
-                if (i == 0 || j == 0) {
-                    sum -= 255;
-                    count --;
-                }
-                if (i == 0 || j == width - 1) {
-                    sum -= 255;
-                    count --;
-                }
-                if (i == height - 1 || j == 0) {
-                    sum -= 255;
-                    count --;
-                }
-                if (i == height - 1 || j == width - 1) {
-                    sum -= 255;
-                    count --;
-                }
-                CU_ASSERT_EQUAL(dst[i * width * 3 + j * 3 + 1], sum / count);
+                CU_ASSERT_EQUAL(dst[i * width * 3 + j * 3 + 1], 0);
             }
 
             CU_ASSERT_EQUAL(dst[i * width * 3 + j * 3 + 2], 0);
@@ -222,37 +195,10 @@ static void test_bggr_gr_all_255()
                     count --;
                 CU_ASSERT_EQUAL(dst[i * width * 3 + j * 3 + 1],
                                 count ? sum / count : 0);
-            } else if (i % 2 == 0 && j % 2 == 1) { /* G at GB */
-                uint16_t sum = 255 * 4;
-                uint8_t count = 5;
-                if (i == 0 || j == 0) {
-                    sum -= 255;
-                    count --;
-                }
-                if (i == 0 || j == width - 1) {
-                    sum -= 255;
-                    count --;
-                }
-                if (i == height - 1 || j == 0) {
-                    sum -= 255;
-                    count --;
-                }
-                if (i == height - 1 || j == width - 1) {
-                    sum -= 255;
-                    count --;
-                }
-                CU_ASSERT_EQUAL(dst[i * width * 3 + j * 3 + 1], sum / count);
+            } else if (i % 2 == 0 && j % 2 == 1) {/* G at GB */
+                CU_ASSERT_EQUAL(dst[i * width * 3 + j * 3 + 1], 0);
             } else { /* G at GR */
-                uint8_t count = 5;
-                if (i == 0 || j == 0)
-                    count --;
-                if (i == 0 || j == width - 1)
-                    count --;
-                if (i == height - 1 || j == 0)
-                    count --;
-                if (i == height - 1 || j == width - 1)
-                    count --;
-                CU_ASSERT_EQUAL(dst[i * width * 3 + j * 3 + 1], 255 / count);
+                CU_ASSERT_EQUAL(dst[i * width * 3 + j * 3 + 1], 255);
             }
 
             CU_ASSERT_EQUAL(dst[i * width * 3 + j * 3 + 2], 0);
