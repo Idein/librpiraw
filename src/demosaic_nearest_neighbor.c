@@ -30,11 +30,7 @@
     (  src[(i - 1) * ld_src +  j     ]      \
      + src[(i + 1) * ld_src +  j     ]) / 2
 #define G_AT_GB \
-    (  src[(i - 1) * ld_src + (j - 1)]      \
-     + src[(i - 1) * ld_src + (j + 1)]      \
-     + src[ i      * ld_src +  j     ]      \
-     + src[(i + 1) * ld_src + (j - 1)]      \
-     + src[(i + 1) * ld_src + (j + 1)]) / 5
+       src[ i      * ld_src +  j     ]
 #define B_AT_GB \
     (  src[ i      * ld_src + (j - 1)]      \
      + src[ i      * ld_src + (j + 1)]) / 2

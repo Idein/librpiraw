@@ -87,33 +87,6 @@ static inline uint8_t R_AT_GB_core(uint8_t *src, const unsigned ld_src,
     return count ? sum / count : 0;
 }
 
-static inline uint8_t G_AT_GB_core(uint8_t *src, const unsigned ld_src,
-                                   const unsigned i, const unsigned j,
-                                   const unsigned width, const unsigned height)
-{
-    uint_fast16_t sum = src[i * ld_src + j];
-    uint_fast8_t count = 1;
-
-    if (i >= 1 && j >= 1) {
-        sum += src[(i - 1) * ld_src + (j - 1)];
-        count ++;
-    }
-    if (i >= 1 && j < width - 1) {
-        sum += src[(i - 1) * ld_src + (j + 1)];
-        count ++;
-    }
-    if (i < height - 1 && j >= 1) {
-        sum += src[(i + 1) * ld_src + (j - 1)];
-        count ++;
-    }
-    if (i < height - 1 && j < width - 1) {
-        sum += src[(i + 1) * ld_src + (j + 1)];
-        count ++;
-    }
-
-    return sum / count;
-}
-
 static inline uint8_t B_AT_GB_core(uint8_t *src, const unsigned ld_src,
                                    const unsigned i, const unsigned j,
                                    const unsigned width, const unsigned height)
@@ -140,7 +113,7 @@ static inline uint8_t B_AT_GB_core(uint8_t *src, const unsigned ld_src,
 #define B_AT_B  src[i * ld_src + j]
 
 #define R_AT_GB R_AT_GB_core(src, ld_src, i, j, width, height)
-#define G_AT_GB G_AT_GB_core(src, ld_src, i, j, width, height)
+#define G_AT_GB src[i * ld_src + j]
 #define B_AT_GB B_AT_GB_core(src, ld_src, i, j, width, height)
 
 #define R_AT_GR B_AT_GB
