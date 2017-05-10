@@ -17,6 +17,10 @@ int rpiraw_calc_histogram_rgb888(uint32_t hist_r[256], uint32_t hist_g[256],
                                  uint8_t *img, const unsigned ld,
                                  const unsigned width, const unsigned height)
 {
+    memset(hist_r, 0, 256 * sizeof(*hist_r));
+    memset(hist_g, 0, 256 * sizeof(*hist_g));
+    memset(hist_b, 0, 256 * sizeof(*hist_b));
+
 #pragma omp parallel firstprivate(img)
     {
         unsigned i, j;
