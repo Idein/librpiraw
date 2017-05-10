@@ -30,7 +30,7 @@ int main()
 end:
     if (CU_get_error() != CUE_SUCCESS)
         fprintf(stderr, "error: CUnit: %s\n", CU_get_error_msg());
-    else
+    else if (ret != 0)
         fprintf(stderr, "error: %d\n", ret);
     return !!ret;
 }
