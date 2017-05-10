@@ -1,4 +1,4 @@
-AM_CFLAGS = -pipe -O2 -g -W -Wall -Wextra -I$(top_srcdir)/include
+AM_CFLAGS = -pipe -O2 -g -W -Wall -Wextra -I$(top_srcdir)/include $(OPENMP_CFLAGS)
 
 lib_LTLIBRARIES = librpiraw.la
 
