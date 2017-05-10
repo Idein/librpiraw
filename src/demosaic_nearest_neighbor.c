@@ -10,6 +10,7 @@
 #include "rpiraw.h"
 #include "local.h"
 #include <stdint.h>
+#include <omp.h>
 
 
 #define R_AT_B  \
@@ -54,7 +55,6 @@ int rpiraw_raw8bggr_to_rgb888_nearest_neighbor(uint8_t *dst,
                                                const unsigned width,
                                                const unsigned height)
 {
-    unsigned i, j;
     int ret = 0;
 
     ret = rpiraw_raw8bggr_to_rgb888_edge(dst, ld_dst, src, ld_src,
@@ -62,43 +62,44 @@ int rpiraw_raw8bggr_to_rgb888_nearest_neighbor(uint8_t *dst,
     if (ret)
         return ret;
 
-    dst += ld_dst * 3;
-    for (i = 1; i < height - 1; ) {
+#pragma omp parallel firstprivate(dst, src)
+    {
+        unsigned i, j;
+        const int nthreads = omp_get_num_threads();
+        const int num = omp_get_thread_num();
+        const unsigned i_start = 1 + (height - 2) *  num      / nthreads,
+                       i_end   = 1 + (height - 2) * (num + 1) / nthreads;
 
-        dst += 3;
+        dst += i_start * ld_dst * 3 + 3;
+        for (i = i_start; i < i_end; i ++) {
+            if (i % 2 == 1) {
+                for (j = 1; j < width - 1; ) {
+                    *dst++ = R_AT_R;  *dst++ = G_AT_R;  *dst++ = B_AT_R;
+                    j ++;
+                    if (j >= width - 1)
+                        break;
+                    *dst++ = R_AT_GR; *dst++ = G_AT_GR; *dst++ = B_AT_GR;
+                    j ++;
+                }
+                if (j == width - 1 - 1) {
+                    *dst++ = R_AT_R;  *dst++ = G_AT_R;  *dst++ = B_AT_R;
+                }
+            } else {
+                for (j = 1; j < width - 1; ) {
+                    *dst++ = R_AT_GB; *dst++ = G_AT_GB; *dst++ = B_AT_GB;
+                    j ++;
+                    if (j >= width - 1)
+                        break;
+                    *dst++ = R_AT_B;  *dst++ = G_AT_B;  *dst++ = B_AT_B;
+                    j ++;
+                }
+                if (j == width - 1 - 1) {
+                    *dst++ = R_AT_GB; *dst++ = G_AT_GB; *dst++ = B_AT_GB;
+                }
+            }
 
-        for (j = 1; j < width - 1; ) {
-            *dst++ = R_AT_R;  *dst++ = G_AT_R;  *dst++ = B_AT_R;
-            j ++;
-            if (j >= width - 1)
-                break;
-            *dst++ = R_AT_GR; *dst++ = G_AT_GR; *dst++ = B_AT_GR;
-            j ++;
+            dst += 3 + (ld_dst - width) * 3 + 3;
         }
-        if (j == width - 1 - 1) {
-            *dst++ = R_AT_R;  *dst++ = G_AT_R;  *dst++ = B_AT_R;
-        }
-        i ++;
-
-        if (i >= height - 1)
-            break;
-
-        dst += 3 + (ld_dst - width) * 3 + 3;
-
-        for (j = 1; j < width - 1; ) {
-            *dst++ = R_AT_GB; *dst++ = G_AT_GB; *dst++ = B_AT_GB;
-            j ++;
-            if (j >= width - 1)
-                break;
-            *dst++ = R_AT_B;  *dst++ = G_AT_B;  *dst++ = B_AT_B;
-            j ++;
-        }
-        if (j == width - 1 - 1) {
-            *dst++ = R_AT_GB; *dst++ = G_AT_GB; *dst++ = B_AT_GB;
-        }
-        i ++;
-
-        dst += 3 + (ld_dst - width) * 3;
     }
 
     return ret;
