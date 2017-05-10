@@ -11,6 +11,10 @@
 #include <stdint.h>
 #include <omp.h>
 
+/*
+ * https://www.math.uci.edu/icamp/courses/math77c/demos/hist_eq.pdf
+ */
+
 int rpiraw_histogram_equalize_rgb888(uint8_t *dst, const unsigned ld_dst,
                                      uint8_t *src, const unsigned ld_src,
                                      const unsigned width,
