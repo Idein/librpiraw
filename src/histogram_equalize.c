@@ -9,6 +9,7 @@
 
 #include "rpiraw.h"
 #include <stdint.h>
+#include <omp.h>
 
 int rpiraw_histogram_equalize_rgb888(uint8_t *dst, const unsigned ld_dst,
                                      uint8_t *src, const unsigned ld_src,
@@ -36,13 +37,25 @@ int rpiraw_histogram_equalize_rgb888(uint8_t *dst, const unsigned ld_dst,
         cdf_b[i] = sum_b * 255 / pixels;
     }
 
-    for (i = 0; i < height; i ++) {
-        for (j = 0; j < width; j ++) {
-            *dst++ = cdf_r[*src++];
-            *dst++ = cdf_g[*src++];
-            *dst++ = cdf_b[*src++];
+#pragma omp parallel firstprivate(src, dst) private(i, j)
+    {
+        const int nthreads = omp_get_num_threads();
+        const int num = omp_get_thread_num();
+        const unsigned i_start = height *  num      / nthreads,
+                       i_end   = height * (num + 1) / nthreads;
+
+        dst += i_start * ld_dst * 3;
+        src += i_start * ld_src * 3;
+
+        for (i = i_start; i < i_end; i ++) {
+            for (j = 0; j < width; j ++) {
+                *dst++ = cdf_r[*src++];
+                *dst++ = cdf_g[*src++];
+                *dst++ = cdf_b[*src++];
+            }
+            dst += (ld_dst - width) * 3;
+            src += (ld_src - width) * 3;
         }
-        dst += (ld_dst - width) * 3;
     }
 
     return ret;
