@@ -21,6 +21,9 @@ AC_SUBST([pkgconfigdir])
 AC_PROG_CC
 AM_PROG_AR
 
+# Checks for OpenMP
+AX_OPENMP(AC_SUBST(OPENMP_CFLAGS), [AC_MSG_ERROR("missing OpenMP")])
+
 # Checks for libraries.
 PKG_CHECK_MODULES(CUNIT, [cunit >= 2.0], , [AC_MSG_ERROR("missing -lcunit")])
 
