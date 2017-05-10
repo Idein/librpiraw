@@ -7,6 +7,7 @@
 /* Howto: http://cunit.sourceforge.net/doc/introduction.html */
 
 int suite_demosaic_nearest_neighbor();
+int suite_histogram();
 
 int main()
 {
@@ -15,6 +16,9 @@ int main()
     CU_initialize_registry();
 
     ret = suite_demosaic_nearest_neighbor();
+    if (ret)
+        goto end;
+    ret = suite_histogram();
     if (ret)
         goto end;
 
