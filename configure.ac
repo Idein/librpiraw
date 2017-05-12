@@ -25,6 +25,9 @@ AM_PROG_AR
 AX_OPENMP(AC_SUBST(OPENMP_CFLAGS), [AC_MSG_ERROR("missing OpenMP")])
 
 # Checks for libraries.
+PKG_CHECK_MODULES(PNG, [libpng >= 1.2], _have_png=yes, _have_png=no)
+AS_IF([test x${_have_png} = "xyes"],
+      [AC_DEFINE([HAVE_PNG], 1, [Define to 1 if you have libpng.])])
 PKG_CHECK_MODULES(CUNIT, [cunit >= 2.0], , [AC_MSG_ERROR("missing -lcunit")])
 
 # Checks for header files.
@@ -37,6 +40,8 @@ AC_TYPE_UINT32_T
 
 # Checks for library functions.
 AC_FUNC_MALLOC
+
+AM_CONDITIONAL([HAVE_PNG], [test "x${HAVE_PNG}" = "x1"])
 
 LT_INIT
 AC_CONFIG_FILES([Makefile include/Makefile src/Makefile test/Makefile

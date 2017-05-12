@@ -22,6 +22,10 @@
                                       const unsigned width,
                                       const unsigned height);
 
+    int rpiraw_write_png_rgb888(const char *filename,
+                                uint8_t *src, const unsigned ld_src,
+                                const unsigned width, const unsigned height);
+
     int rpiraw_raw8bggr_to_rgb888_edge(uint8_t *dst, const unsigned ld_dst,
                                        uint8_t *src, const unsigned ld_src,
                                        const unsigned width,
