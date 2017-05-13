@@ -18,9 +18,10 @@
                                      const unsigned width,
                                      const unsigned height,
                                      const unsigned raw_width);
-    int rpiraw_convert_raw10_to_raw16(uint16_t *dst, uint8_t *src,
-                                      const unsigned width,
-                                      const unsigned height);
+    int rpiraw_convert_raw10_to_raw10u(uint16_t *dst, uint8_t *src,
+                                       const unsigned width,
+                                       const unsigned height,
+                                       const unsigned raw_width);
 
     int rpiraw_write_png_rgb888(const char *filename,
                                 uint8_t *src, const unsigned ld_src,
