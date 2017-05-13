@@ -57,6 +57,9 @@
     int rpiraw_histogram_equalize_rgb888(uint8_t *dst, const unsigned ld_dst,
                                          uint8_t *src, const unsigned ld_src,
                                          const unsigned width,
-                                         const unsigned height);
+                                         const unsigned height,
+                                         uint32_t hist_r[256],
+                                         uint32_t hist_g[256],
+                                         uint32_t hist_b[256]);
 
 #endif /* RPIRAW_H */
