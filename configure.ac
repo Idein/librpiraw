@@ -41,7 +41,7 @@ AC_TYPE_UINT32_T
 # Checks for library functions.
 AC_FUNC_MALLOC
 
-AM_CONDITIONAL([HAVE_PNG], [test "x${HAVE_PNG}" = "x1"])
+AM_CONDITIONAL([HAVE_PNG], [test "x${_have_png}" = "xyes"])
 
 LT_INIT
 AC_CONFIG_FILES([Makefile include/Makefile src/Makefile test/Makefile
