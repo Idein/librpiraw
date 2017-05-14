@@ -23,6 +23,7 @@ uint32_t rpiraw_calc_mean_by_hist(uint32_t *hist, const unsigned len,
     unsigned i;
     uint_fast32_t sum = 0;
 
+#pragma omp parallel for reduction(+:sum)
     for (i = 0; i < len; i ++)
         sum += i * hist[i];
 
@@ -40,6 +41,7 @@ uint32_t rpiraw_calc_acm_by_hist(uint32_t *hist, const unsigned len,
     unsigned i;
     uint_fast32_t sum = 0;
 
+#pragma omp parallel for reduction(+:sum)
     for (i = 0; i < len; i ++)
         sum += abs((int32_t) i - mean) * hist[i];
 
