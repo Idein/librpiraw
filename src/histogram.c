@@ -62,14 +62,13 @@ int rpiraw_calc_histogram_rgb888(uint32_t hist_r[256], uint32_t hist_g[256],
 
 void rpiraw_histogram_to_rgb888(uint8_t *img,
                                 const unsigned ld, const unsigned stride,
-                                uint32_t *hist,
-                                const unsigned nbits, const uint32_t max,
+                                uint32_t *hist, const unsigned hist_len,
+                                const uint32_t hist_max,
                                 const unsigned hist_width,
                                 const unsigned hist_height)
 {
     unsigned i, j, k;
-    const unsigned hist_len = (1 << nbits);
-    const double mag_height = (double) hist_height / max;
+    const double mag_height = (double) hist_height / hist_max;
 
     for (i = 0; i < hist_len; i ++) {
         const unsigned val = MIN(hist[i] * mag_height, hist_height);

@@ -49,8 +49,8 @@
 
     void rpiraw_histogram_to_rgb888(uint8_t *img,
                                     const unsigned ld, const unsigned stride,
-                                    uint32_t *hist,
-                                    const unsigned nbits, const uint32_t max,
+                                    uint32_t *hist, const unsigned hist_len,
+                                    const uint32_t hist_max,
                                     const unsigned hist_width,
                                     const unsigned hist_height);
 
