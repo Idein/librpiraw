@@ -54,6 +54,9 @@
                                     const unsigned hist_width,
                                     const unsigned hist_height);
 
+    uint32_t rpiraw_calc_mean_by_hist(uint32_t *hist, const unsigned len,
+                                      const unsigned npixs);
+
     int rpiraw_histogram_equalize_rgb888(uint8_t *dst, const unsigned ld_dst,
                                          uint8_t *src, const unsigned ld_src,
                                          const unsigned width,
