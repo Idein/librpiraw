@@ -9,6 +9,7 @@
 
 #include "rpiraw.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdint.h>
 
 /*
@@ -24,6 +25,23 @@ uint32_t rpiraw_calc_mean_by_hist(uint32_t *hist, const unsigned len,
 
     for (i = 0; i < len; i ++)
         sum += i * hist[i];
+
+    return sum / npixs;
+}
+
+/*
+ * M. V. Shirvaikar, "An optimal measure for camera focus and exposure",
+ *   Thirty-Sixth Southeastern Symposium on System Theory,
+ *   2004. Proceedings of the, 2004, pp. 472-475.
+ */
+uint32_t rpiraw_calc_acm_by_hist(uint32_t *hist, const unsigned len,
+                                 const unsigned npixs, const uint32_t mean)
+{
+    unsigned i;
+    uint_fast32_t sum = 0;
+
+    for (i = 0; i < len; i ++)
+        sum += abs((int32_t) i - mean) * hist[i];
 
     return sum / npixs;
 }
