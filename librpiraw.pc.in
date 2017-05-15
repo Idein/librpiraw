@@ -8,4 +8,4 @@ Description: Yet another RAW image manipulating library
 Version: @VERSION@
 Requires: libpng >= 1.2
 Cflags: -I${includedir}
-Libs: -L${libdir} -lrpiraw
+Libs: -L${libdir} -lrpiraw -lm

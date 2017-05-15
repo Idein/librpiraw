@@ -68,4 +68,11 @@
                                          uint32_t hist_g[256],
                                          uint32_t hist_b[256]);
 
+    void rpiraw_calc_luminance_bt709_rgb888(uint8_t *dst,
+                                            const unsigned ld_dst,
+                                            uint8_t *src,
+                                            const unsigned ld_src,
+                                            const unsigned width,
+                                            const unsigned height);
+
 #endif /* RPIRAW_H */

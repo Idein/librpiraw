@@ -29,9 +29,11 @@ PKG_CHECK_MODULES(PNG, [libpng >= 1.2], _have_png=yes, _have_png=no)
 AS_IF([test x${_have_png} = "xyes"],
       [AC_DEFINE([HAVE_PNG], 1, [Define to 1 if you have libpng.])])
 PKG_CHECK_MODULES(CUNIT, [cunit >= 2.0], , [AC_MSG_ERROR("missing -lcunit")])
+AC_CHECK_LIB([m], [roundf],
+             [AC_SUBST([M_LIBS], [-lm])], [AC_MSG_ERROR("missing -lm")])
 
 # Checks for header files.
-AC_CHECK_HEADERS([stdio.h stdint.h stdlib.h string.h])
+AC_CHECK_HEADERS([stdio.h stdint.h stdlib.h string.h math.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_TYPE_UINT8_T
