@@ -10,6 +10,7 @@ int suite_demosaic_nearest_neighbor();
 int suite_histogram();
 int suite_statistic();
 int suite_luminance();
+int suite_file_png();
 
 int main()
 {
@@ -27,6 +28,9 @@ int main()
     if (ret)
         goto end;
     ret = suite_luminance();
+    if (ret)
+        goto end;
+    ret = suite_file_png();
     if (ret)
         goto end;
 
