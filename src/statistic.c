@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <math.h>
 
 /*
  * M. V. Shirvaikar, "An optimal measure for camera focus and exposure",
@@ -36,14 +37,14 @@ float rpiraw_calc_mean_by_hist(uint32_t *hist, const unsigned len,
  *   2004. Proceedings of the, 2004, pp. 472-475.
  */
 float rpiraw_calc_acm_by_hist(uint32_t *hist, const unsigned len,
-                              const unsigned npixs, const uint32_t mean)
+                              const unsigned npixs, const float mean)
 {
     unsigned i;
-    uint_fast32_t sum = 0;
+    float sum = 0.0;
 
 #pragma omp parallel for reduction(+:sum)
     for (i = 0; i < len; i ++)
-        sum += abs((int32_t) i - mean) * hist[i];
+        sum += fabsf(mean - i) * hist[i];
 
     return (float) sum / npixs;
 }
