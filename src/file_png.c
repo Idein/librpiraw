@@ -60,6 +60,10 @@ int rpiraw_write_png_rgb888(const char *filename,
 
     png_write_end(pngp, infop);
     png_destroy_write_struct(&pngp, &infop);
+    if (fclose(fp) != 0) {
+        perror("fclose");
+        return 1;
+    }
 
     return 0;
 }
