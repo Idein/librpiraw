@@ -43,6 +43,27 @@
 #define G_AT_R  G_AT_B
 #define B_AT_R  R_AT_B
 
+#define DO_ODD_LINE() \
+    do { \
+        for (j = 1; j < width - 1; ) { \
+            *dst++ = R_AT_R;  *dst++ = G_AT_R;  *dst++ = B_AT_R;  j ++; \
+            *dst++ = R_AT_GR; *dst++ = G_AT_GR; *dst++ = B_AT_GR; j ++; \
+        } \
+        if (j == width - 1 - 1) { \
+            *dst++ = R_AT_R;  *dst++ = G_AT_R;  *dst++ = B_AT_R; \
+        } \
+    } while (0)
+
+#define DO_EVEN_LINE() \
+    do { \
+        for (j = 1; j < width - 1; ) { \
+            *dst++ = R_AT_GB; *dst++ = G_AT_GB; *dst++ = B_AT_GB; j ++; \
+            *dst++ = R_AT_B;  *dst++ = G_AT_B;  *dst++ = B_AT_B;  j ++; \
+        } \
+        if (j == width - 1 - 1) { \
+            *dst++ = R_AT_GB; *dst++ = G_AT_GB; *dst++ = B_AT_GB; \
+        } \
+    } while (0)
 
 int rpiraw_raw8bggr_to_rgb888_nearest_neighbor(uint8_t *dst,
                                                const unsigned ld_dst,
@@ -67,40 +88,20 @@ int rpiraw_raw8bggr_to_rgb888_nearest_neighbor(uint8_t *dst,
                        i_end   = 1 + (height - 2) * (num + 1) / nthreads;
 
         dst += i_start * ld_dst * 3 + 3;
-        for (i = i_start; i < i_end; i ++) {
-            if (i % 2 == 1) {
-                for (j = 1; j < width - 1; ) {
-                    *dst++ = R_AT_R;  *dst++ = G_AT_R;  *dst++ = B_AT_R;
-                    j ++;
-                    if (j >= width - 1)
-                        break;
-                    *dst++ = R_AT_GR; *dst++ = G_AT_GR; *dst++ = B_AT_GR;
-                    j ++;
-                }
-                if (j == width - 1 - 1) {
-                    *dst++ = R_AT_R;  *dst++ = G_AT_R;  *dst++ = B_AT_R;
-                }
-            } else {
-                for (j = 1; j < width - 1; ) {
-                    *dst++ = R_AT_GB; *dst++ = G_AT_GB; *dst++ = B_AT_GB;
-                    j ++;
-                    if (j >= width - 1)
-                        break;
-                    *dst++ = R_AT_B;  *dst++ = G_AT_B;  *dst++ = B_AT_B;
-                    j ++;
-                }
-                if (j == width - 1 - 1) {
-                    *dst++ = R_AT_GB; *dst++ = G_AT_GB; *dst++ = B_AT_GB;
-                }
-            }
-
-            dst += 3 + (ld_dst - width) * 3 + 3;
+        for (i = i_start; i < i_end; ) {
+            DO_ODD_LINE();  i ++; dst += 3 + (ld_dst - width) * 3 + 3;
+            DO_EVEN_LINE(); i ++; dst += 3 + (ld_dst - width) * 3 + 3;
+        }
+        if (i == i_end - 1) {
+            DO_ODD_LINE();        dst += 3 + (ld_dst - width) * 3 + 3;
         }
     }
 
     return ret;
 }
 
+#undef DO_EVEN_LINE
+#undef DO_ODD_LINE
 #undef R_AT_B
 #undef G_AT_B
 #undef B_AT_B
