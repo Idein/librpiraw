@@ -12,6 +12,10 @@
 #include <stdint.h>
 #include <omp.h>
 
+#define MARGIN_NORTH 1
+#define MARGIN_EAST  1
+#define MARGIN_SOUTH 1
+#define MARGIN_WEST  1
 
 #define R_AT_B  \
     (  src[(i - 1) * ld_src + (j - 1)]      \
@@ -45,22 +49,22 @@
 
 #define DO_ODD_LINE() \
     do { \
-        for (j = 1; j < width - 1; ) { \
+        for (j = MARGIN_WEST; j < width - MARGIN_EAST; ) { \
             *dst++ = R_AT_R;  *dst++ = G_AT_R;  *dst++ = B_AT_R;  j ++; \
             *dst++ = R_AT_GR; *dst++ = G_AT_GR; *dst++ = B_AT_GR; j ++; \
         } \
-        if (j == width - 1 - 1) { \
+        if (j == (width - MARGIN_EAST) - 1) { \
             *dst++ = R_AT_R;  *dst++ = G_AT_R;  *dst++ = B_AT_R; \
         } \
     } while (0)
 
 #define DO_EVEN_LINE() \
     do { \
-        for (j = 1; j < width - 1; ) { \
+        for (j = MARGIN_WEST; j < width - MARGIN_EAST; ) { \
             *dst++ = R_AT_GB; *dst++ = G_AT_GB; *dst++ = B_AT_GB; j ++; \
             *dst++ = R_AT_B;  *dst++ = G_AT_B;  *dst++ = B_AT_B;  j ++; \
         } \
-        if (j == width - 1 - 1) { \
+        if (j == (width - MARGIN_EAST) - 1) { \
             *dst++ = R_AT_GB; *dst++ = G_AT_GB; *dst++ = B_AT_GB; \
         } \
     } while (0)
@@ -75,7 +79,9 @@ int rpiraw_raw8bggr_to_rgb888_nearest_neighbor(uint8_t *dst,
     int ret = 0;
 
     ret = rpiraw_raw8bggr_to_rgb888_edge(dst, ld_dst, src, ld_src,
-                                         width, height, 1, 1, 1, 1);
+                                         width, height,
+                                         MARGIN_NORTH, MARGIN_EAST,
+                                         MARGIN_SOUTH, MARGIN_WEST);
     if (ret)
         return ret;
 
@@ -84,16 +90,22 @@ int rpiraw_raw8bggr_to_rgb888_nearest_neighbor(uint8_t *dst,
         unsigned i, j;
         const int nthreads = omp_get_num_threads();
         const int num = omp_get_thread_num();
-        const unsigned i_start = 1 + (height - 2) *  num      / nthreads,
-                       i_end   = 1 + (height - 2) * (num + 1) / nthreads;
+        const unsigned i_start = MARGIN_WEST
+                                  + (height - (MARGIN_EAST + MARGIN_WEST))
+                                      *  num      / nthreads,
+                       i_end   = MARGIN_WEST
+                                  + (height - (MARGIN_EAST + MARGIN_WEST))
+                                      * (num + 1) / nthreads;
+        const unsigned dst_stride = 3 * (MARGIN_WEST + (ld_dst - width)
+                                          + MARGIN_EAST);
 
-        dst += i_start * ld_dst * 3 + 3;
+        dst += 3 * (i_start * ld_dst + MARGIN_EAST);
         for (i = i_start; i < i_end; ) {
-            DO_ODD_LINE();  i ++; dst += 3 + (ld_dst - width) * 3 + 3;
-            DO_EVEN_LINE(); i ++; dst += 3 + (ld_dst - width) * 3 + 3;
+            DO_ODD_LINE();  i ++; dst += dst_stride;
+            DO_EVEN_LINE(); i ++; dst += dst_stride;
         }
         if (i == i_end - 1) {
-            DO_ODD_LINE();        dst += 3 + (ld_dst - width) * 3 + 3;
+            DO_ODD_LINE();        dst += dst_stride;
         }
     }
 
