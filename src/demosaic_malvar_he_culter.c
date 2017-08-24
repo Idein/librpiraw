@@ -40,7 +40,7 @@
      + src[ i      * ld_src + (j + 1)] * 2 \
      - src[ i      * ld_src + (j + 2)]     \
      + src[(i + 1) * ld_src +  j     ] * 2 \
-     - src[(i + 2) * ld_src +  j     ]    )
+     - src[(i + 2) * ld_src +  j     ]    ) / 8
 #define G_AT_B  G_AT_R
 
 #define R_AT_GR \
@@ -54,19 +54,19 @@
      - src[ i      * ld_src + (j + 2)]         \
      - src[(i + 1) * ld_src + (j + 1)]         \
      - src[(i + 1) * ld_src + (j - 1)]         \
-     + src[(i + 2) * ld_src +  j     ] / 2)
+     + src[(i + 2) * ld_src +  j     ] / 2) / 8
 #define R_AT_GB \
-    (  src[(i - 2) * ld_src +  j     ] / 2     \
+    (- src[(i - 2) * ld_src +  j     ] / 2     \
      - src[(i - 1) * ld_src + (j - 1)]         \
      + src[(i - 1) * ld_src +  j     ] * 4     \
      - src[(i - 1) * ld_src + (j + 1)]         \
-     - src[ i      * ld_src + (j - 2)]         \
+     + src[ i      * ld_src + (j - 2)] / 2     \
      + src[ i      * ld_src +  j     ] * 5     \
-     - src[ i      * ld_src + (j + 2)]         \
+     + src[ i      * ld_src + (j + 2)] / 2     \
      - src[(i + 1) * ld_src + (j - 1)]         \
-     + src[(i - 1) * ld_src +  j     ] * 4     \
+     + src[(i + 1) * ld_src +  j     ] * 4     \
      - src[(i + 1) * ld_src + (j + 1)]         \
-     + src[(i + 2) * ld_src +  j     ] / 2)
+     - src[(i + 2) * ld_src +  j     ] / 2) / 8
 #define R_AT_B \
     (- src[(i - 2) * ld_src +  j     ] * 3 / 2 \
      + src[(i - 1) * ld_src + (j - 1)] * 2     \
@@ -76,7 +76,7 @@
      - src[ i      * ld_src + (j + 2)] * 3 / 2 \
      + src[(i + 1) * ld_src + (j - 1)] * 2     \
      + src[(i + 1) * ld_src + (j + 1)] * 2     \
-     - src[(i + 2) * ld_src +  j     ] * 3 / 2)
+     - src[(i + 2) * ld_src +  j     ] * 3 / 2) / 8
 
 #define B_AT_GB R_AT_GR
 #define B_AT_GR R_AT_GB
