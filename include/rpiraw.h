@@ -40,6 +40,12 @@
                                                    const unsigned ld_src,
                                                    const unsigned width,
                                                    const unsigned height);
+    int rpiraw_raw8bggr_to_rgb888_malvar_he_culter(uint8_t *dst,
+                                                   const unsigned ld_dst,
+                                                   uint8_t *src,
+                                                   const unsigned ld_src,
+                                                   const unsigned width,
+                                                   const unsigned height);
 
     int rpiraw_calc_histogram_rgb888(uint32_t hist_r[256], uint32_t hist_g[256],
                                      uint32_t hist_b[256],

@@ -5,6 +5,7 @@ lib_LTLIBRARIES = librpiraw.la
 
 librpiraw_la_SOURCES = raw.c convert.c \
                        demosaic_edge.c demosaic_nearest_neighbor.c \
+                       demosaic_malvar_he_culter.c \
                        histogram.c histogram_equalize.c statistic.c \
                        luminance.c
 if HAVE_PNG
