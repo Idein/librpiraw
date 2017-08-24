@@ -100,7 +100,11 @@ int rpiraw_raw8bggr_to_rgb888_nearest_neighbor(uint8_t *dst,
                                           + MARGIN_EAST);
 
         dst += 3 * (i_start * ld_dst + MARGIN_EAST);
-        for (i = i_start; i < i_end; ) {
+        i = i_start;
+        if (i % 2 == 0) {
+            DO_EVEN_LINE(); i ++; dst += dst_stride;
+        }
+        for (; i < i_end; ) {
             DO_ODD_LINE();  i ++; dst += dst_stride;
             DO_EVEN_LINE(); i ++; dst += dst_stride;
         }
