@@ -14,6 +14,13 @@
 
     unsigned rpiraw_width_raw8_to_raw10_rpi(const unsigned width);
 
+    int rpiraw_raw8bggr_component_gain(uint8_t *dst, const unsigned ld_dst,
+                                       uint8_t *src, const unsigned ld_src,
+                                       const unsigned width,
+                                       const unsigned height,
+                                       const float gain_r, const float gain_g,
+                                       const float gain_b);
+
     int rpiraw_convert_raw10_to_raw8(uint8_t *dst, uint8_t *src,
                                      const unsigned width,
                                      const unsigned height,
