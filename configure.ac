@@ -33,7 +33,7 @@ AC_CHECK_LIB([m], [roundf],
              [AC_SUBST([M_LIBS], [-lm])], [AC_MSG_ERROR("missing -lm")])
 
 # Checks for header files.
-AC_CHECK_HEADERS([stdio.h stdint.h stdlib.h string.h math.h])
+AC_CHECK_HEADERS([stdio.h stdint.h stdlib.h string.h math.h sys/param.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_TYPE_UINT8_T
