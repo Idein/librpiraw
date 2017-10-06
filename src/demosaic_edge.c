@@ -170,8 +170,8 @@ int rpiraw_raw8bggr_to_rgb888_edge(uint8_t *dst, const unsigned ld_dst,
                     *dst++ = R_AT_R;  *dst++ = G_AT_R;  *dst++ = B_AT_R;
                 }
             }
-            dst += (ld_dst - edge_w) * 3;
         }
+        dst += (ld_dst - edge_w) * 3;
     }
 
     /* East */
@@ -191,8 +191,8 @@ int rpiraw_raw8bggr_to_rgb888_edge(uint8_t *dst, const unsigned ld_dst,
                     *dst++ = R_AT_R;  *dst++ = G_AT_R;  *dst++ = B_AT_R;
                 }
             }
-            dst += (ld_dst - width) * 3 + (width - edge_e) * 3;
         }
+        dst += (ld_dst - width) * 3 + (width - edge_e) * 3;
     }
 
     /* South */
