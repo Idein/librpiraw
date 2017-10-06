@@ -84,7 +84,7 @@
 
 #define DO_ODD_LINE() \
     do { \
-        for (j = MARGIN_WEST; j < width - MARGIN_EAST; ) { \
+        for (j = MARGIN_WEST; j < (width - MARGIN_EAST) - 1; ) { \
             *dst++ = R_AT_R;  *dst++ = G_AT_R;  *dst++ = B_AT_R;  j ++; \
             *dst++ = R_AT_GR; *dst++ = G_AT_GR; *dst++ = B_AT_GR; j ++; \
         } \
@@ -95,7 +95,7 @@
 
 #define DO_EVEN_LINE() \
     do { \
-        for (j = MARGIN_WEST; j < width - MARGIN_EAST; ) { \
+        for (j = MARGIN_WEST; j < (width - MARGIN_EAST) - 1; ) { \
             *dst++ = R_AT_GB; *dst++ = G_AT_GB; *dst++ = B_AT_GB; j ++; \
             *dst++ = R_AT_B;  *dst++ = G_AT_B;  *dst++ = B_AT_B;  j ++; \
         } \
@@ -139,7 +139,7 @@ int rpiraw_raw8bggr_to_rgb888_malvar_he_culter(uint8_t *dst,
         if (i % 2 == 0) {
             DO_EVEN_LINE(); i ++; dst += dst_stride;
         }
-        for (; i < i_end; ) {
+        for (; i < i_end - 1; ) {
             DO_ODD_LINE();  i ++; dst += dst_stride;
             DO_EVEN_LINE(); i ++; dst += dst_stride;
         }
